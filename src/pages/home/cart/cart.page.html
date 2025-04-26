@@ -60,6 +60,46 @@
       </ion-item>
     </ion-card>
     }
+
+    <!-- Apply Coupon goes here -->
+
+    <ion-list lines="lines" class="coupon">
+      <ion-item-divider mode="md">
+        <ion-label class="ion-no-margin" color="dark">
+          Offers & Benefits
+        </ion-label>
+      </ion-item-divider>
+        <ion-card>
+          @if(!selectedCoupon){
+          <ion-item [detail]="true" class="offer" (click)="applyCoupon = true">
+            <ion-label>
+              Apply Coupon
+            </ion-label>
+          </ion-item>
+        } @else {
+          <ion-item class="offer selected_coupon">
+            <ion-label>
+              '{{selectedCoupon?.code}}' applied
+              <p>
+                <ion-text color="success">
+                  <strong>{{currency}}{{selectedCoupon?.saved | number: '0.2-2'}}</strong>
+                </ion-text>
+                <ion-text class="coupon_text"> Coupon Savings</ion-text>
+              </p>
+            </ion-label>
+            <ion-button
+              fill="clear"
+              color="danger"
+              [strong]="true"
+              (click)="removeCoupon()"
+            >
+            <ion-text>Remove</ion-text>
+          </ion-button>
+          </ion-item>
+        }
+        </ion-card>
+    </ion-list>
+
     <!--billing details-->
     <ion-list lines="none" class="billing">
       <ion-list-header>
@@ -73,12 +113,28 @@
           </ion-text>
         </ion-item>
 
+        @if(selectedCoupon){
+          <ion-item>
+            <ion-label color="dark">Item Discount</ion-label>
+            <ion-text slot="end" color="success">- {{cartService.currency}}{{selectedCoupon?.saved | number : '0.2-2' }}</ion-text>
+          </ion-item>
+        }
+
         <ion-item class="delivery-fee">
           <ion-label color="dark">Delivery fee</ion-label>
           <ion-text slot="end" color="dark">
             {{cartService.currency}}{{model?.total_delivery_charge | number: '0.2-2'}}
           </ion-text>
         </ion-item>
+        
+        @if(model?.tax && model?.tax > 0){
+          <ion-item>
+            <ion-label color="dark">Taxes</ion-label>
+            <ion-text slot="end" color="dark">
+              {{currency}}{{model?.tax | number: '0.2-2'}}
+            </ion-text>
+          </ion-item>
+        }
 
         <ion-item class="dashedBorderTop">
           <ion-label color="dark"><strong>To Pay</strong></ion-label>
@@ -90,6 +146,23 @@
         </ion-item>
       </ion-item-group>
     </ion-list>
+
+    <ion-modal
+      #coupon_modal
+      (didDismiss)="applyCoupon = false"
+      [isOpen]="applyCoupon"
+    >
+      <ng-template>
+        <app-coupon
+          [orderTotal] = "model?.totalPrice"
+          (close) = "closeCouponModal($event, coupon_modal)"
+        >
+
+        </app-coupon>
+      </ng-template>
+
+    </ion-modal>
+
   }@else {
     <div class="empty-screen" [align]="'center'">
       <ion-icon name="bag-handle-outline" color="primary"></ion-icon>

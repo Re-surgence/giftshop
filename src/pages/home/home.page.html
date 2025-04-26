@@ -3,7 +3,7 @@
     <ion-title>
       Gift shop
     </ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" mode="ios">
       <ion-button
           fill="clear"
           size="large"
@@ -33,7 +33,7 @@
   <ion-row>
     @for(item of items; track i; let i = $index){
       <ion-col sizeLg="3" sizeMd="4" sizeSm="6" sizeXl="3" sizeXs="6">
-        <ion-card [routerLink]="['/', 'home', 'gifts', item?.id]">
+        <ion-card [routerLink]="['/', 'home', 'gifts', item?.id]"> <!-- When the user clicks an ion-card, the routerLink builds the URL with the item’s id (e.g., /home/gifts/1).        -->
           <ion-thumbnail>
             <ion-img [src] = "item?.cover"></ion-img>
           </ion-thumbnail>

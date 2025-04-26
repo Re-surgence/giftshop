@@ -17,9 +17,9 @@ import {
   IonButton,
   IonBadge,
 } from '@ionic/angular/standalone';
-import { ApiService } from '../services/api/api.service';
+import { ApiService } from 'src/app/services/api/api.service';
 import { RouterLink } from '@angular/router';
-import { CartService } from '../services/cart/cart.service';
+import { CartService } from 'src/app/services/cart/cart.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -46,6 +46,7 @@ import { Subscription } from 'rxjs';
     RouterLink,
   ],
 })
+// Fetching and searching
 export class HomePage implements OnDestroy {
   items: any[] = [];
   allItems: any[] = [];
@@ -68,20 +69,23 @@ export class HomePage implements OnDestroy {
         console.log("This is total items from howe:", this.totalItems);
       }
     })
+    console.log("This is cartSub:", this.cartSub);
   }
 
   getItems() {
-    this.allItems = this.api.items;
+    this.allItems = this.api.items; // <-----(2)
     this.items = [...this.allItems];
   }
 
-  onSearchChange(event: any) {
+  onSearchChange(event: any) { // Updates the search query when the user types in the search bar.
     console.log('This is search'); // There was an error when I did $event and event.detail
     this.query = event.detail.value.toLowerCase(); // Implementing search function when always lower the case
     this.querySearch();
   }
+  // any means TypeScript doesn’t know the structure of event, so it won’t complain when you access event.detail.value.
+
   querySearch() {
-    this.items = [];
+    this.items = []; // Okayyy <-----(2)
     if (this.query.length > 0) {
       this.searchItems();
     } else {
@@ -97,3 +101,19 @@ export class HomePage implements OnDestroy {
     if(this.cartSub) this.cartSub.unsubscribe();
   }
 }
+/*
+Components and Lifecycle Hooks: ngOnInit, ngOnDestroy in pages.
+
+Services and Dependency Injection: inject for ApiService, CartService, StorageServiceService.
+
+RxJS: BehaviorSubject, asObservable(), subscribe in CartService.
+
+Routing: Navigation between HomePage, ItemDetailPage, and CartPage.
+
+Capacitor: Preferences API for persistent storage.
+
+Ionic Components: ion-content, ion-card, ion-badge, etc.
+
+Event Handling: (click), (ionChange) for buttons and inputs.
+
+*/

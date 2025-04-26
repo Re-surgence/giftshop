@@ -11,7 +11,7 @@ export class StorageServiceService {
   setStorage(key:string, value:string){
     Preferences.set({key:key, value:value});
   }
-  getStorage(key: string){
+  getStorage(key: string){// retrieves the saved cart data from Preferences
     return Preferences.get({key:key});
   }
   removeStorage(key:string){

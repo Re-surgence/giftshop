@@ -22,6 +22,7 @@ export class CartService {
   constructor() {
     this.initCart();
   }
+  // Tries to get cart(model, data) from storage, if not initialse by own
   async initCart(){
     try{
       const data = await this.storage.getStorage(this.cartStoreName);
@@ -29,9 +30,16 @@ export class CartService {
       if (data?.value){
         this.model = JSON.parse(data.value);
       }else{
+        // ! REMINDER MODEL HAS "ITEMS" (DON'T FORGET THE S). TO STORE MANY "ITEM"
         this.model = {items: [], totalItem: 0, totalPrice: 0, grandTotal: 0};
       }
       this._cart.next(this.model);
+      /*
+      The counter practice didn’t save the BehaviorSubject’s value to Preferences,
+      so it resets on reload.
+      The cart uses Preferences to save its state, so it persists.
+      The BehaviorSubject (_cart) in CartService is reinitialized on reload, but initCart() immediately updates it with the saved data, making it seem like the cart never reset.
+      */
       console.log('Initialized cart:', this.model);
     }catch(error){
       console.error('Error initializing cart:', error);
@@ -39,6 +47,8 @@ export class CartService {
       this._cart.next(this.model);
     }
   }
+  // Get's index, finds the item matching the index from the this.model.items, increments the quantity.
+  // Also Error handles 
   addQuantity(item: any){
     // const data = this._cart.value;
     // const totalItem = (data?.totalItem || 0) + 1;
@@ -47,9 +57,11 @@ export class CartService {
       const index = this.model.items.findIndex((data: any) => data.id == item.id);
       
       if(index >= 0){
+        // ! ARRAY INDEXXXXX
         this.model.items[index].quantity += 1;
       }else{
-        const items = [{...item, quantity : 1}]
+        // ! LATER TEEHEE >-<
+        const items = [{...item, quantity: 1}]
         this.model.items = items.concat(this.model.items);
       }
     }else{
@@ -77,6 +89,7 @@ export class CartService {
     }
     return null;
   }
+  // Calculates the quantity of the CARTS(this.model.items) ITEMS, and calculates parameters based on that.
   calculate(){
     const items = this.model.items.filter((item:any) => item.quantity > 0);
     
@@ -104,6 +117,7 @@ export class CartService {
     };
   }
   saveCart(data:any){
+    // '{"items":[],"totalItem":0,"totalPrice":0,"grandTotal":0,"userno":123}' (when stringified)
     const model = JSON.stringify(data);
     this.storage.setStorage(this.cartStoreName, model);
   }

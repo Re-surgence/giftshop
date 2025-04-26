@@ -36,6 +36,7 @@ import { RouterLink } from '@angular/router';
     RouterLink
   ],
 })
+// Get's the id of item, and added to bag
 export class ItemDetailPage implements OnInit, OnDestroy {
   id!: string;
   private api = inject(ApiService);

@@ -67,7 +67,16 @@ ion-content{
             }
         }
     }
-
+    ion-list.coupon{
+        background: transparent;
+        ion-item-divider{
+            margin-left: 1rem;
+            margin-right: 1rem;
+            padding-left: 0;
+            --background: #121212;
+            border-bottom: 0;
+        }
+    }
     ion-list.billing{
         background: transparent;
         ion-list-header{

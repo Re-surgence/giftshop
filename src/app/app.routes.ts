@@ -11,25 +11,26 @@ export const routes: Routes = [
     children: [
       {
         path:'',
-        loadComponent: () => import('./home/home.page').then((m)=> m.HomePage)
+        loadComponent: () => import('../pages/home/home.page').then((m)=> m.HomePage)
       },
       {
         path: 'gifts/:id',
+        // In Angular’s routing, the : in :id indicates that id is a route parameter—a placeholder for a dynamic value that will be provided when the route is accessed.(variable bhannu khojeko)
         children:[
           {
             path:'',
-            loadComponent: () => import('./home/item-detail/item-detail.page').then( m => m.ItemDetailPage)
+            loadComponent: () => import('../pages/home/item-detail/item-detail.page').then( m => m.ItemDetailPage)
           },
           {
             path: 'cart',
-            loadComponent: () => import('./home/cart/cart.page').then( m => m.CartPage)
+            loadComponent: () => import('../pages/home/cart/cart.page').then( m => m.CartPage)
           },
         ],
-        loadComponent: () => import('./home/item-detail/item-detail.page').then( m => m.ItemDetailPage)
+        loadComponent: () => import('../pages/home/item-detail/item-detail.page').then( m => m.ItemDetailPage)
       },
       {
         path: 'cart',
-        loadComponent: () => import('./home/cart/cart.page').then( m => m.CartPage)
+        loadComponent: () => import('../pages/home/cart/cart.page').then( m => m.CartPage)
       },
     ],
   },
