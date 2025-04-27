@@ -18,10 +18,11 @@
   <div class="ion-margin">
     <ion-card>
       <ion-row>
+        <!-- An Angular directive that dynamically adds/removes CSS classes based on conditions.([[ngClass]=""]) -->
         <ion-col
           size="1"
           class="ion-text-center offer"
-          [ngClass]="{
+          [ngClass]="{ 
             amtSaved: coupon?.saved >= 0,
             amtInsufficient: coupon?.saved < 0
           }"

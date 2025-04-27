@@ -11,6 +11,7 @@ export class CartService {
 
   model:any = null;
   total_delivery_charge = 10;
+  tax = 5; // in percentages
   cartStoreName = Strings.CART_STORAGE;
   currency = Strings.CURRENCY;
   private storage = inject(StorageServiceService);
@@ -105,7 +106,9 @@ export class CartService {
       totalPrice += element.price * element.quantity;
     }
 
-    const grandTotal = totalPrice + this.total_delivery_charge;
+    const tax = totalPrice * (this.tax / 100);
+
+    const grandTotal = totalPrice + this.total_delivery_charge + tax;
     console.log("Grand Total:",grandTotal);
     this.model = {
       ...this.model,
@@ -113,6 +116,7 @@ export class CartService {
       totalItem, 
       totalPrice,
       total_delivery_charge: this.total_delivery_charge,
+      tax,
       grandTotal
     };
   }

@@ -11,7 +11,7 @@ export const routes: Routes = [
     children: [
       {
         path:'',
-        loadComponent: () => import('../pages/home/home.page').then((m)=> m.HomePage)
+        loadComponent: () => import('./pages/home/home.page').then((m)=> m.HomePage)
       },
       {
         path: 'gifts/:id',
@@ -19,18 +19,18 @@ export const routes: Routes = [
         children:[
           {
             path:'',
-            loadComponent: () => import('../pages/home/item-detail/item-detail.page').then( m => m.ItemDetailPage)
+            loadComponent: () => import('./pages/home/item-detail/item-detail.page').then( m => m.ItemDetailPage)
           },
           {
             path: 'cart',
-            loadComponent: () => import('../pages/home/cart/cart.page').then( m => m.CartPage)
+            loadComponent: () => import('./pages/home/cart/cart.page').then( m => m.CartPage)
           },
         ],
-        loadComponent: () => import('../pages/home/item-detail/item-detail.page').then( m => m.ItemDetailPage)
+        loadComponent: () => import('./pages/home/item-detail/item-detail.page').then( m => m.ItemDetailPage)
       },
       {
         path: 'cart',
-        loadComponent: () => import('../pages/home/cart/cart.page').then( m => m.CartPage)
+        loadComponent: () => import('./pages/home/cart/cart.page').then( m => m.CartPage)
       },
     ],
   },

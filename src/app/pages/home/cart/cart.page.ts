@@ -27,6 +27,7 @@ import { CartService } from 'src/app/services/cart/cart.service';
 import { ViewChild } from '@angular/core';
 import { CouponComponent } from './components/coupon/coupon.component';
 import { Strings } from 'src/app/enum/strings.enum';
+import { AddAddressComponent } from './components/add-address/add-address.component';
 
 @Component({
   selector: 'app-cart',
@@ -55,17 +56,20 @@ import { Strings } from 'src/app/enum/strings.enum';
     IonToolbar,
     IonThumbnail,
     DecimalPipe,
-    CouponComponent
+    CouponComponent,
+    AddAddressComponent,
   ],
 })
 export class CartPage implements OnInit, OnDestroy {
-  @ViewChild('coupon_modal') coupon_modal!: IonModal;
+  @ViewChild('add_address_modal') add_address_modal!: IonModal;
   applyCoupon: boolean = false;
   previous!: string;
   cartSub!: Subscription;
   model: any = null;
   currency = Strings.CURRENCY;
   selectedCoupon!: any;
+  isAddAddress = false;
+  address!:any;
   public cartService = inject(CartService); // * can't use private variables in html
   private router = inject(Router); // * Curly Bracket Class incident
 
@@ -114,7 +118,21 @@ export class CartPage implements OnInit, OnDestroy {
   }
 
   removeCoupon(){
-    
+    this.model.grandTotal += this.selectedCoupon?.saved;
+    this.selectedCoupon = null;
+  }
+
+  checkout(){
+    if(!this.address){
+      this.isAddAddress = true;
+    }
+  }
+
+  closeAddAddressModal(data: any){
+    this.add_address_modal.dismiss();
+    if(data){
+      this.address = data;
+    }
   }
 
   ngOnDestroy(): void {

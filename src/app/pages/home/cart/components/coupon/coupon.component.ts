@@ -38,8 +38,8 @@ import { EventEmitter } from '@angular/core';
   ],
 })
 export class CouponComponent implements OnInit {
-  @Input() orderTotal!:number;
-  @Output() close: EventEmitter<any> = new EventEmitter();
+  @Input() orderTotal!:number; // A decorator that allows a parent component to pass data to a child component.
+  @Output() close: EventEmitter<any> = new EventEmitter(); // A decorator that allows a child component to emit events to the parent.
   coupons: any[] = [];
   isLoading: boolean = false;
   currency = Strings.CURRENCY;
