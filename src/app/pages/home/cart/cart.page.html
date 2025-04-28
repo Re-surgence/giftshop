@@ -149,6 +149,43 @@
     </ion-item-group>
   </ion-list>
 
+  @if(address){
+    <ion-list class="billing">
+      <ion-list-header>
+        <ion-label color="dark"> Shipping Details</ion-label>
+      </ion-list-header>
+
+      <ion-item-group>
+        <ion-item>
+          <ion-icon slot="start" name="location-outline"></ion-icon>
+          <ion-label color="dark">
+            {{address?.save_as}}
+            <p>
+              <span>{{address?.house_no}},</span>
+              @if(address?.landmark){
+                <span>{{address?.landmark}},</span>
+              }
+              {{address?.address}}, {{address?.city}} - {{address?.pincode}},
+              {{address?.state}}, {{address?.country}}
+            </p>
+          </ion-label>
+
+          <ion-button
+            slot="end"
+            color="secondary"
+            size="small"
+            fill="clear"
+            (click)="isSelectAddress = true"
+          >
+            CHANGE
+          </ion-button>
+
+        </ion-item>
+      </ion-item-group>
+
+    </ion-list>
+  }
+
   <ion-modal
     #coupon_modal
     (didDismiss)="applyCoupon = false"
@@ -164,6 +201,8 @@
     </ng-template>
   </ion-modal>
 
+
+  <!-- * This is "Add"address-->
   <ion-modal
     #add_address_modal
     (didDismiss)="isAddAddress = false"
@@ -173,6 +212,21 @@
         <app-add-address (close)="closeAddAddressModal($event)"> </app-add-address>
     </ng-template>
   </ion-modal>
+
+  <!-- * This is just Addresses-->
+   <ion-modal
+    #address_modal
+    (didDismiss) = "isSelectAddress = false"
+    [isOpen]="isSelectAddress"
+    [breakpoints]="[0, 0.3, 0.7, 0.9]"
+    [initialBreakpoint]="0.7"
+   >
+    <ng-template>
+      <app-addresses
+        [addresses]="addresses"
+        (close)="closeAddressModal($event)"></app-addresses>
+    </ng-template>
+   </ion-modal>
 
   }@else {
   <div class="empty-screen" [align]="'center'">

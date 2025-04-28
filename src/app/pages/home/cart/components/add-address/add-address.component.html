@@ -18,8 +18,8 @@
         placeholder="Pincode*"
         class="full-border"
         type="number"
-        formControlName="Pincode"
-        errorText="* Enter you Pincode"
+        formControlName="pincode"
+        errorText="* Enter your Pincode"
       >
       </ion-input>
 
@@ -111,9 +111,15 @@
       </ion-item>
     </ion-list>
     <div class="ion-margin ion-paddin-top">
-      <ion-button expand="block" size="large" color="primary" (click)="save()">
-        <ion-text>Save & Proceed to Pay</ion-text>
-      </ion-button>
+      @if(!isloading){
+        <ion-button expand="block" size="large" color="primary" (click)="save()">
+          <ion-text>Save Address</ion-text>
+        </ion-button>
+      }@else {
+        <ion-button expand="block" size="large" color="primary">
+          <ion-spinner name="crescent"></ion-spinner>
+        </ion-button>
+      }
     </div>
   </form>
 </ion-content>
